@@ -1,14 +1,14 @@
-# 🚀 DDoS Attack Detection & Prevention with Telegram Alert System
+# ⚠️ DDoS Attack Detection & Prevention with Telegram Alert System
 
 This repository contains a powerful tool for detecting potential DDoS attacks based on high request frequency from the same IP address. The system monitors traffic, detects anomalies, and sends real-time alerts to a Telegram bot.
 
-## 📌 Features:
+## 🚀 Features:
 1. **Real-Time DDoS Detection** – Monitors excessive requests from the same IP within a short time frame.
 2. **Telegram Alert System** – Sends alerts with IP and **WHOIS details** (ISP, location, ASN).
 3. **Spam Prevention** – Implements a **5-minute cooldown** per IP to avoid redundant notifications.
 4. **Configurable Thresholds** – Easily adjust detection limits via `config.env`.
 #
-## Instructions
+## 📌 Instructions
 To get Chat ID visit [@GetMyChatID_Bot](https://t.me/GetMyChatID_Bot) Now you will copy the chat Id and config it.
 To access the bot [@DDoS Detection Alert](http://t.me/DDoS_Detect_Alertbot) and START it.
 
