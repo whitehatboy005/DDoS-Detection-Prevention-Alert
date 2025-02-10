@@ -52,8 +52,8 @@ python main.py
 - Sends a Telegram notification with **WHOIS** data.
 - Blocks repeated alerts from the same IP for 5 minutes.
 
-## Contribution:
+## 👨‍💻 Contribution:
 **Contributions are welcome! If you have any suggestions for improvements or bug fixes, feel free to submit a pull request.**
 
-## License
+## 📝 License
 This project is licensed under the terms of the [MIT license](LICENSE.md).
