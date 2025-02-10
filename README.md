@@ -1,5 +1,5 @@
 # ⚠️ DDoS Attack Detection & Prevention with Telegram Alert System
-
+[![License](https://img.shields.io/github/license/whitehatboy005/DDoS-Detection-Prevention-Alert)](LICENSE.md)
 This repository contains a powerful tool for detecting potential DDoS attacks based on high request frequency from the same IP address. The system monitors traffic, detects anomalies, and sends real-time alerts to a Telegram bot.
 
 ## 🚀 Features:
