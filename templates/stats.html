@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Stats</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+        }
+        canvas {
+            background: #1e1e1e;
+            border-radius: 10px;
+            padding: 10px;
+        }
+        .section {
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s;
+        }
+        .section:hover {
+            transform: scale(1.02);
+        }
+        #blocked-ips p {
+            color: red;
+            font-weight: bold;
+        }
+        nav {
+            background: #1e1e1e;
+            padding: 10px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-around;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: #4caf50;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="#traffic">Traffic</a>
+        <a href="#blocked">Blocked IPs</a>
+    </nav>
+
+    <div class="container">
+        <h1>Server Stats</h1>
+
+        <div class="section" id="traffic">
+            <h2>Traffic Data</h2>
+            <canvas id="trafficChart"></canvas>
+        </div>
+
+        <div class="section" id="blocked">
+            <h2>Blocked IPs</h2>
+            <div id="blocked-ips"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            updateStats();
+            setInterval(updateStats, 5000);
+        });
+
+        let trafficChart;
+        function updateStats() {
+            fetch("/api/stats")
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Raw Traffic Data from API:", data.traffic);  // ✅ Debug API response
+
+                    updateTrafficChart(data.traffic);
+                    updateBlockedIps(data.blocked);
+                });
+        }
+
+
+        function updateTrafficChart(traffic) {
+    let ctx = document.getElementById("trafficChart").getContext("2d");
+    let labels = Object.keys(traffic);
+    let values = Object.values(traffic);
+
+    // ✅ Debugging logs to check the traffic data
+    console.log("Traffic Data Values:", values);
+    console.log("Max Requests:", Math.max(...values));
+
+    if (trafficChart) trafficChart.destroy();
+    trafficChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "Requests per IP",
+                data: values,
+                backgroundColor: "#4caf50",
+                borderColor: "#388e3c",
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1,
+                        suggestedMax: Math.max(...values) + 5 // 🔥 Adjusting max value dynamically
+                    }
+                }
+            },
+            animation: {
+                duration: 1000,
+                easing: "easeInOutBounce"
+            }
+        }
+    });
+}
+
+
+        function updateBlockedIps(blockedIps) {
+            let blockedDiv = document.getElementById("blocked-ips");
+            blockedDiv.innerHTML = "";
+
+            if (blockedIps.length === 0) {
+                blockedDiv.innerHTML = "<p>No blocked IPs.</p>";
+                return;
+            }
+
+            blockedIps.forEach(ip => {
+                let p = document.createElement("p");
+                p.textContent = ip;
+                blockedDiv.appendChild(p);
+            });
+        }
+    </script>
+</body>
+</html>
