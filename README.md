@@ -53,6 +53,15 @@ python main.py
 - If an IP exceeds the `THRESHOLD`, an alert is triggered.
 - Sends a Telegram notification with **WHOIS** data.
 - Blocks repeated alerts from the same IP for 5 minutes.
+  
+## To check the IP Block or not on windows 
+```bash
+netsh advfirewall firewall show rule name=all | findstr "<BLOCKED IP>"
+```
+## To check the IP Block or not on linux
+```bash
+sudo nft list ruleset | grep "<BLOCKED IP>"
+```
 
 ## 👨‍💻 Contribution:
 **Contributions are welcome! If you have any suggestions for improvements or bug fixes, feel free to submit a pull request.**
